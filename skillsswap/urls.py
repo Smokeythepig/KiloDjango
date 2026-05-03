@@ -3,6 +3,7 @@ from . import views
 
 urlpatterns = [
     path('', views.skill_list, name='skill_list'),
+<<<<<<< HEAD
 ]
 from .views import ExpenseListView, ExpenseCreateView, ExpenseUpdateView, ExpenseDeleteView
 
@@ -11,4 +12,7 @@ urlpatterns = [
     path('add/', ExpenseCreateView.as_view(), name='expense_add'),
     path('edit/<int:pk>/', ExpenseUpdateView.as_view(), name='expense_edit'),
     path('delete/<int:pk>/', ExpenseDeleteView.as_view(), name='expense_delete'),
+=======
+    path('dashboard/', views.dashboard, name='dashboard'),
+>>>>>>> a5202aa (dashboard, category totals, filters)
 ]
