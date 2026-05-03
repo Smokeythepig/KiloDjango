@@ -1,0 +1,9 @@
+<h1>Skills List</h1>
+
+<ul>
+  {% for skill in skills %}
+    <li>{{ skill }}</li>
+  {% empty %}
+    <li>No skills yet</li>
+  {% endfor %}
+</ul>
