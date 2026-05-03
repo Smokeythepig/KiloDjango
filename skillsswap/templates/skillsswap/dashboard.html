@@ -5,12 +5,12 @@
 <p>Welcome, {{ user.username }}</p>
 
 <h2>Filter by Category</h2>
-<a href="/dashboard/">All</a> |
-<a href="/dashboard/?category=tutoring">Tutoring</a> |
-<a href="/dashboard/?category=tech">Tech</a> |
-<a href="/dashboard/?category=design">Design</a> |
-<a href="/dashboard/?category=fitness">Fitness</a> |
-<a href="/dashboard/?category=other">Other</a>
+<a href="{% url 'dashboard' %}">All</a> |
+<a href="{% url 'dashboard' %}?category=tutoring">Tutoring</a> |
+<a href="{% url 'dashboard' %}?category=tech">Tech</a> |
+<a href="{% url 'dashboard' %}?category=design">Design</a> |
+<a href="{% url 'dashboard' %}?category=fitness">Fitness</a> |
+<a href="{% url 'dashboard' %}?category=other">Other</a>
 
 <p>Total Skills: {{ total_skills }}</p>
 
@@ -18,6 +18,8 @@
 <ul>
     {% for item in category_totals %}
     <li>{{ item.category }}: {{ item.count }}</li>
+    {% empty %}
+    <li>No skills found.</li>
     {% endfor %}
 </ul>
 
