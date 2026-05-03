@@ -10,3 +10,28 @@
 </form>
 <p><a href="{% url 'expense_list' %}">Back to List</a></p>
 {% endblock %}
+
+{% extends 'skillsswp/base.html' %}
+{% block content %}
+<h2>Manage Expense</h2>
+
+<form method="post" novalidate> {% csrf_token %}
+
+    {% if form.non_field_errors %}
+    <div class="errorlist">{{ form.non_field_errors }}</div>
+    {% endif %}
+
+    {% for field in form %}
+    <div class="field-container">
+        {{ field.label_tag }} {{ field }}
+        {% if field.errors %}
+        <div class="errorlist" style="color: red; font-size: 0.8em;">
+            {{ field.errors }}
+        </div>
+        {% endif %}
+    </div>
+    {% endfor %}
+
+    <button type="submit">Save</button>
+</form>
+{% endblock %}

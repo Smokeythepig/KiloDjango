@@ -16,6 +16,22 @@ class ExpenseListView(ListView):
     template_name = 'skillsswp/expense_list.html'
     context_object_name = 'expenses'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        # 1. Get all the expenses being shown on the page
+        expense_list = self.get_queryset()
+        
+        # 2. Manual calculation (Just like Checkpoint 2!)
+        total = 0
+        for item in expense_list:
+            total += item.amount
+            
+        # 3. Pass it to the template
+        context['total_spending'] = total
+        return context
+
+
 # CREATE VIEW
 class ExpenseCreateView(CreateView):
     model = Expense

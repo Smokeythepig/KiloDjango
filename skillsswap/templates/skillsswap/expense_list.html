@@ -1,6 +1,7 @@
 {% extends 'skillsswp/base.html' %}
 {% block content %}
 <h2>Expense Records</h2>
+
 <table border="1" style="width:100%; border-collapse: collapse;">
     <thead>
         <tr style="background-color: #eee;">
@@ -29,5 +30,14 @@
         </tr>
         {% endfor %}
     </tbody>
+
+    <tfoot>
+        <tr style="background-color: #eee; font-weight: bold;">
+            <td colspan="2" style="text-align: right;">Total Spending:</td>
+            <td>${{ total_spending }}</td>
+            <td colspan="2"></td>
+        </tr>
+    </tfoot>
+
 </table>
 {% endblock %}
