@@ -6,3 +6,7 @@ class SkillAdmin(admin.ModelAdmin):
     list_display = ('title', 'category', 'is_free', 'price', 'user', 'created_at')
     list_filter = ('category', 'is_free')
     search_fields = ('title', 'description')
+
+from .models import Expense
+
+admin.site.register(Expense)

@@ -33,3 +33,25 @@ class Skill(models.Model):
 
     def __str__(self):
         return self.title
+    
+
+
+
+from django.contrib.auth.models import User # Required for User Accounts [cite: 72]
+
+class Expense(models.Model):
+    # Links expense to a specific user [cite: 18, 72]
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    
+    # Required fields from Checkpoint 3 requirements 
+    date = models.DateField()
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    category = models.CharField(max_length=100)
+    description = models.TextField(blank=True)
+    
+    # Track when records are created/updated [cite: 72]
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.date} - {self.category}: ${self.amount}"
