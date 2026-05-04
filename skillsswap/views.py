@@ -33,16 +33,23 @@ def skill_list(request):
 @login_required
 def dashboard(request):
     expenses = Expense.objects.filter(user=request.user)
+    # gets all expenses for the logged-in user
 
     category_totals = expenses.values('category').annotate(total=Sum('amount')).order_by('category')
+    # groups expenses by category and sums the amounts (aggregation)
+
     total_spending = expenses.aggregate(total=Sum('amount'))['total'] or 0
+    # calculates total spending across all expenses (aggregation)
+
     total_expenses = expenses.count()
+    # counts total number of expenses
 
     return render(request, 'skillsswap/dashboard.html', {
         'total_spending': total_spending,
         'total_expenses': total_expenses,
         'category_totals': category_totals,
     })
+# handles aggregation: calculates totals and groups data for display
 
 
 class ExpenseForm(forms.ModelForm):
