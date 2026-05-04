@@ -1,4 +1,6 @@
-from django.shortcuts import render
+from django.db import models
+from django.shortcuts import render,redirect
+from .forms import UserRegisterForm
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
@@ -6,32 +8,26 @@ from django.urls import reverse_lazy
 from django import forms
 from django.core.exceptions import ValidationError
 from datetime import date
-
+from django.contrib.auth.decorators import login_required
 from .models import Skill, Expense
 
-
-def skill_list(request):
-    skills = Skill.objects.all()
-    return render(request, 'skillsswap/skill_list.html', {'skills': skills})
 
 
 @login_required
 def dashboard(request):
-    skills = Skill.objects.all()
+    # Get all expenses for the logged-in user
+    expenses = Expense.objects.filter(user=request.user)
 
-    category_filter = request.GET.get('category')
+    # Calculate total spending
+    total_spending = expenses.aggregate(total=models.Sum('amount'))['total'] or 0
 
-    if category_filter:
-        skills = skills.filter(category=category_filter)
-
-    total_skills = skills.count()
-    category_totals = skills.values('category').annotate(count=Count('category'))
+    # Group expenses by category and calculate totals for each category
+    category_totals = expenses.values('category').annotate(total=models.Sum('amount'))
 
     return render(request, 'skillsswap/dashboard.html', {
-        'total_skills': total_skills,
+        'total_spending': total_spending,
         'category_totals': category_totals,
     })
-
 
 class ExpenseForm(forms.ModelForm):
     class Meta:
@@ -93,3 +89,17 @@ class ExpenseDeleteView(DeleteView):
     model = Expense
     template_name = 'skillsswap/expense_confirm_delete.html'
     success_url = reverse_lazy('expense_list')
+    
+    
+def home(request):
+    return render(request, 'skillsswap/home.html')
+    
+def register(request):
+    if request.method == 'POST':
+        form = UserRegisterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login')  # Redirect to login page after registration
+    else:
+        form = UserRegisterForm()
+    return render(request, 'skillsswap/register.html', {'form': form})

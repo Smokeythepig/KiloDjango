@@ -2,12 +2,30 @@
 <html>
 
 <head>
-    <title>Campus SkillSwap</title>
+    <title>Expense Manager</title>
 </head>
+
+
+
+
 
 <body>
     <nav>
-        <a href="{% url 'skill_list' %}">Skills</a> |
+        {% if user.is_authenticated %}
+            <span>Welcome, {{ user.username }}</span> |
+            <form action="{% url 'logout' %}" method="post" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" style="background: none; border: none; color: blue; text-decoration: underline; cursor: pointer;">
+                    Logout
+                </button>
+            </form>
+        {% else %}
+            <a href="{% url 'login' %}">Login</a> |
+            <a href="{% url 'register' %}">Register</a>
+        {% endif %}
+    </nav>
+    <nav>
+        <a href="{% url 'expense_list' %}">Expenses</a> |
         <a href="{% url 'dashboard' %}">Dashboard</a>
     </nav>
 

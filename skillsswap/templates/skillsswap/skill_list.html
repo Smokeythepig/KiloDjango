@@ -1,9 +1,13 @@
-<h1>Skills List</h1>
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Expense Manager</h1>
 
 <ul>
   {% for skill in skills %}
     <li>{{ skill }}</li>
   {% empty %}
-    <li>No skills yet</li>
+    <li>No expenses yet</li>
   {% endfor %}
 </ul>
+{% endblock %}

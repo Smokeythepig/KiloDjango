@@ -4,23 +4,14 @@
 <h1>Dashboard</h1>
 <p>Welcome, {{ user.username }}</p>
 
-<h2>Filter by Category</h2>
-<a href="{% url 'dashboard' %}">All</a> |
-<a href="{% url 'dashboard' %}?category=tutoring">Tutoring</a> |
-<a href="{% url 'dashboard' %}?category=tech">Tech</a> |
-<a href="{% url 'dashboard' %}?category=design">Design</a> |
-<a href="{% url 'dashboard' %}?category=fitness">Fitness</a> |
-<a href="{% url 'dashboard' %}?category=other">Other</a>
+<h2>Total Spending: ${{ total_spending }}</h2>
 
-<p>Total Skills: {{ total_skills }}</p>
-
-<h2>Skills by Category</h2>
+<h2>Expenses by Category</h2>
 <ul>
     {% for item in category_totals %}
-    <li>{{ item.category }}: {{ item.count }}</li>
+    <li>{{ item.category }}: ${{ item.total }}</li>
     {% empty %}
-    <li>No skills found.</li>
+    <li>No expenses found.</li>
     {% endfor %}
 </ul>
-
 {% endblock %}
