@@ -5,12 +5,12 @@
 
 <h2>Spending Summary</h2>
 <p><strong>Total Expenses:</strong> {{ total_expenses }}</p>
-<p><strong>Total Spending:</strong> ${{ total_spending }}</p>
+<p><strong>Total Spending:</strong> ${{ total_spending|floatformat:2 }}</p>
 
 <h2>Spending by Category</h2>
 <ul>
     {% for item in category_totals %}
-    <li>{{ item.category }}: ${{ item.total }}</li>
+    <li>{{ item.category }}: ${{ item.total|floatformat:2 }}</li>
     {% empty %}
     <li>No expenses recorded yet.</li>
     {% endfor %}
