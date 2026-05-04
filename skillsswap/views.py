@@ -125,7 +125,7 @@ class ExpenseDeleteView(LoginRequiredMixin, DeleteView):
 
 # --- Currency Conversion ---
 
-EXCHANGE_API_URL = 'https://api.exchangerate-api.com/v4/latest/USD'
+EXCHANGE_API_URL = 'https://open.er-api.com/v6/latest/USD'
 
 @login_required
 def currency_conversion(request):
