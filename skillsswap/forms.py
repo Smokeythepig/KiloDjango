@@ -12,7 +12,7 @@ class ExpenseForm(forms.ModelForm):  #is a ModelForm, directs Django to automati
     #our Expense database model
     class Meta:  #nested class telling Django which model to use and which fields to display in html
         model = Expense
-        # Fields the user will interact with
+        # Fields the user will interact with (specifies what is 'revealed' from model to the user)
         fields = ['date', 'amount', 'category', 'description']
         
         # HTML widget to show a calendar picker (otherwise default, Django shows text box for dates, this widgets
