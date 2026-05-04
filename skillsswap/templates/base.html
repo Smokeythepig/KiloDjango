@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Campus SkillSwap</title>
+</head>
+
+<body>
+    <nav>
+        <a href="{% url 'skill_list' %}">Skills</a> |
+        <a href="{% url 'dashboard' %}">Dashboard</a>
+    </nav>
+
+    <hr>
+
+    {% block content %}
+    {% endblock %}
+</body>
+
+</html>
