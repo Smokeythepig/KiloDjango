@@ -2,10 +2,10 @@
 Kilo Teams, Django Website!!!!
 
  1. Project Overview
-This application is the final evolution of the Personal Expense Tracker, transitioning from a desktop GUI to a robust, multi-user Django web application [cite: 1, 4]. It allows users to manage expenses through a browser, view summaries and category totals, filter expenses, and convert totals into other currencies using a live API [cite: 13]. The system preserves the core business logic from previous checkpoints—including manual entry, file loading, and aggregation—while redesigning it for a modern web environment with a relational database.
+This application is the final evolution of the Personal Expense Tracker, transitioning from a desktop GUI to a robust, multi-user Django web application. It allows users to manage expenses through a browser, view summaries and category totals, filter expenses, and convert totals into other currencies using a live API. The system preserves the core business logic from previous checkpoints—including manual entry, file loading, and aggregation—while redesigning it for a modern web environment with a relational database.
 
  2. Team Members and Contributions
-Our team divided responsibilities based on the core logic each member developed during the desktop GUI phase to ensure architectural continuity [cite: 92].
+Our team divided responsibilities based on the core logic each member developed during the desktop GUI phase to ensure architectural continuity.
 
 Michael McCarty: Initialized the Django project structure and URL configuration. He implemented the User Authentication system, including login and logout functionality to ensure expenses belong to specific users.
 
@@ -20,13 +20,13 @@ Connor Beasley: Refactored the file-loading logic to support web-based CSV and J
     1.  Prerequisites: Ensure Python 3.x is installed.
     2.  Dependencies: Install required packages (e.g., `pip install django requests`).
     3.  Database Setup: Run `python manage.py makemigrations` and `python manage.py migrate` to initialize the    database.
-    4.  Launch: Run the command `python manage.py runserver` [cite: 96].
+    4.  Launch: Run the command `python manage.py runserver`.
     5.  Access: Navigate to `http://127.0.0.1:8000/` in your web browser.
 
 4. Django Architecture
 The application follows the Django MVT (Model-View-Template) pattern to ensure a clean separation of concerns:
-Models: Uses the `Expense` model tied to the built-in `User` model via the Django ORM [cite: 72, 78].
-Forms: Utilizes `ExpenseForm` and `ImportForm` for secure and validated user input [cite: 53, 54, 79].
+Models: Uses the `Expense` model tied to the built-in `User` model via Django.
+Forms: Utilizes `ExpenseForm` and `ImportForm` for secure and validated user input.
 Views: Separate views handle the Dashboard (summaries), Expense List, Management (CRUD), and Data Imports.
 Templates: A base template provides shared navigation, with specific templates for the dashboard, forms, and reports.
 
@@ -36,7 +36,7 @@ Checkpoint 2: Refactored logic into an object-oriented desktop GUI with API-base
 Checkpoint 3: Moved the system into Django, replacing in-memory structures with a relational database and enabling multi-user support.
 
 6. API Integration
-The application integrates a live currency API to convert spending totals [cite: 33]. The logic is designed to be robust; if the API fails or the network is unavailable, the application provides a user-friendly error message rather than crashing.
+The application integrates a live currency API to convert spending totals. The logic is designed to be robust; if the API fails or the network is unavailable, the application provides a user-friendly error message rather than crashing.
 
 7. Data Import Strategy
 Users can upload CSV or JSON files through the web interface. The application validates the uploaded data to ensure required fields (Date, Amount, Category, Description) are present. Malformed rows or invalid formats are skipped or flagged without interrupting the rest of the import process.
