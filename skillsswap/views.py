@@ -87,12 +87,19 @@ class ExpenseListView(LoginRequiredMixin, ListView): #inherits from LoginRequire
         #pulls category name from url and store in variable
         date_from = self.request.GET.get('date_from')
         date_to = self.request.GET.get('date_to')
+        
         if category:  #if user provides a category, refine list. __iexact makes search case-insensitive.
             qs = qs.filter(category__iexact=category)
-        if date_from:
+
+        if date_from and date_to:
+            if date_from > date_to:  # Check if "From" date is after "To" date
+                raise ValidationError("The 'From' date must be earlier than the 'To' date.")
+            qs = qs.filter(date__range=[date_from, date_to])
+            
+        elif date_from:
             qs = qs.filter(date__gte=date_from) #__gte is greater than or equal to, filters for expenses
             #on or after the chosen start date
-        if date_to:
+        elif date_to:
             qs = qs.filter(date__lte=date_to) #__lte is less than or equal to, filters for expenses
             #on or before the chosen end date
         return qs.order_by('-date') #returns final filtered list, - in -date sorts in reverse chronological order (newest first)
