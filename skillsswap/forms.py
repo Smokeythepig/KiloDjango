@@ -2,6 +2,8 @@ from django import forms
 from .models import Expense # The dot (.) means "look in the current folder"
 from django.core.exceptions import ValidationError
 from datetime import date
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 
 class ExpenseForm(forms.ModelForm):
     class Meta:
@@ -25,3 +27,8 @@ class ExpenseForm(forms.ModelForm):
         if selected_date and selected_date > date.today():
             raise forms.ValidationError("You cannot log an expense for a future date.")
         return selected_date   
+
+class UserRegisterForm(UserCreationForm):
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'password1', 'password2']

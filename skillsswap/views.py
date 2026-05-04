@@ -7,6 +7,8 @@ from django.urls import reverse_lazy
 from django import forms
 from django.core.exceptions import ValidationError
 from django.contrib import messages
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login
 from datetime import date
 import csv
 import json
@@ -14,6 +16,12 @@ import io
 import requests
 
 from .models import Skill, Expense
+
+
+def home(request):
+    if request.user.is_authenticated:
+        return redirect('dashboard')
+    return redirect('login')
 
 
 def skill_list(request):
@@ -129,7 +137,7 @@ def currency_conversion(request):
     if request.method == 'POST':
         target_currency = request.POST.get('currency', '').upper().strip()
         try:
-            response = requests.get(EXCHANGE_API_URL, timeout=10)
+            response = requests.get(EXCHANGE_API_URL, timeout=5)
             response.raise_for_status()
             rates = response.json().get('rates', {})
             if target_currency in rates:
@@ -186,7 +194,6 @@ def import_expenses(request):
 
 
 def _parse_row(user, row):
-    """Parse a dict row into an Expense, returning the object or raising ValueError."""
     date_val = row.get('date', '').strip()
     amount_val = row.get('amount', '').strip()
     category = row.get('category', '').strip()
@@ -243,10 +250,6 @@ def _import_json(user, content):
 
 
 # --- Registration ---
-
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import login
-
 
 def register(request):
     if request.method == 'POST':
