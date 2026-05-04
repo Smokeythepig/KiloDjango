@@ -92,8 +92,9 @@ class ExpenseListView(LoginRequiredMixin, ListView): #inherits from LoginRequire
             qs = qs.filter(category__iexact=category)
 
         if date_from and date_to:
-            if date_from > date_to:  # Check if "From" date is after "To" date
-                raise ValidationError("The 'From' date must be earlier than the 'To' date.")
+            if date_from > date_to:
+                messages.error(self.request, "The 'From' date must be earlier than the 'To' date.")
+                return qs.none()  # Return an empty queryset
             qs = qs.filter(date__range=[date_from, date_to])
             
         elif date_from:
