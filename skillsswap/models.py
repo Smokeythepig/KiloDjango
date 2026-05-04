@@ -37,10 +37,10 @@ class Skill(models.Model):
 
 
 
-from django.contrib.auth.models import User # Required for User Accounts [cite: 72]
+from django.contrib.auth.models import User # Required for User Accounts 
 
 class Expense(models.Model):
-    # Links expense to a specific user [cite: 18, 72]
+    # Links expense to a specific user 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     
     # Required fields from Checkpoint 3 requirements 
@@ -49,7 +49,7 @@ class Expense(models.Model):
     category = models.CharField(max_length=100)
     description = models.TextField(blank=True)
     
-    # Track when records are created/updated [cite: 72]
+    # Track when records are created/updated 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
