@@ -9,4 +9,7 @@ urlpatterns = [
     path('edit/<int:pk>/', ExpenseUpdateView.as_view(), name='expense_edit'),
     path('delete/<int:pk>/', ExpenseDeleteView.as_view(), name='expense_delete'),
     path('dashboard/', views.dashboard, name='dashboard'),
+    path('currency/', views.currency_conversion, name='currency_conversion'),
+    path('import/', views.import_expenses, name='import_expenses'),
+    path('register/', views.register, name='register'),
 ]

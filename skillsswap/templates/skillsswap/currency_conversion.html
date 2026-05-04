@@ -1,0 +1,26 @@
+{% extends 'skillsswap/base.html' %}
+{% block content %}
+<h2>Currency Conversion</h2>
+
+<p>Your total spending in USD: <strong>${{ total_usd }}</strong></p>
+
+<form method="post">
+    {% csrf_token %}
+    <label>Convert to currency code (e.g. EUR, GBP, CAD):
+        <input type="text" name="currency" value="{{ target_currency }}" maxlength="3" style="text-transform:uppercase;">
+    </label>
+    <button type="submit" style="margin-left: 10px;">Convert</button>
+</form>
+
+{% if error %}
+<p style="color: red; margin-top: 15px;">{{ error }}</p>
+{% endif %}
+
+{% if converted is not None %}
+<p style="margin-top: 15px;">
+    ${{ total_usd }} USD = <strong>{{ converted }} {{ target_currency }}</strong>
+</p>
+{% endif %}
+
+<p style="margin-top: 20px;"><a href="{% url 'dashboard' %}">Back to Dashboard</a></p>
+{% endblock %}

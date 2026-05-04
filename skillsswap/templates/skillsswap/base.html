@@ -43,8 +43,16 @@
     <div class="container">
         <nav>
             <strong>Kilo Tracker</strong> |
-            <a href="{% url 'expense_list' %}">All Expenses</a> |
-            <a href="{% url 'expense_add' %}">Add New</a>
+            <a href="{% url 'dashboard' %}">Dashboard</a> |
+            <a href="{% url 'expense_list' %}">Expenses</a> |
+            <a href="{% url 'expense_add' %}">Add Expense</a> |
+            <a href="{% url 'import_expenses' %}">Import</a> |
+            <a href="{% url 'currency_conversion' %}">Currency</a> |
+            {% if user.is_authenticated %}
+            <span style="float:right;">{{ user.username }} | <a href="{% url 'logout' %}">Logout</a></span>
+            {% else %}
+            <span style="float:right;"><a href="{% url 'login' %}">Login</a> | <a href="{% url 'register' %}">Register</a></span>
+            {% endif %}
         </nav>
         {% block content %}{% endblock %}
     </div>

@@ -1,0 +1,27 @@
+{% extends 'skillsswap/base.html' %}
+{% block content %}
+<h2>Import Expenses</h2>
+
+<p>Upload a <strong>.csv</strong> or <strong>.json</strong> file. Required columns/fields: <code>date</code> (YYYY-MM-DD), <code>amount</code>, <code>category</code>. <code>description</code> is optional.</p>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" style="padding: 8px 16px;">Import</button>
+</form>
+
+{% if imported or skipped %}
+<div style="margin-top: 20px; padding: 10px; background: #f0f8f0; border: 1px solid #aaa;">
+    <p>Imported: <strong>{{ imported }}</strong> &nbsp; Skipped: <strong>{{ skipped }}</strong></p>
+    {% if errors %}
+    <ul style="color: red;">
+        {% for e in errors %}
+        <li>{{ e }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+</div>
+{% endif %}
+
+<p style="margin-top: 20px;"><a href="{% url 'expense_list' %}">View Expenses</a></p>
+{% endblock %}

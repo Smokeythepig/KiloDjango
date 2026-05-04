@@ -1,26 +1,25 @@
-{% extends "base.html" %}
-
+{% extends 'skillsswap/base.html' %}
 {% block content %}
 <h1>Dashboard</h1>
 <p>Welcome, {{ user.username }}</p>
 
-<h2>Filter by Category</h2>
-<a href="{% url 'dashboard' %}">All</a> |
-<a href="{% url 'dashboard' %}?category=tutoring">Tutoring</a> |
-<a href="{% url 'dashboard' %}?category=tech">Tech</a> |
-<a href="{% url 'dashboard' %}?category=design">Design</a> |
-<a href="{% url 'dashboard' %}?category=fitness">Fitness</a> |
-<a href="{% url 'dashboard' %}?category=other">Other</a>
+<h2>Spending Summary</h2>
+<p><strong>Total Expenses:</strong> {{ total_expenses }}</p>
+<p><strong>Total Spending:</strong> ${{ total_spending }}</p>
 
-<p>Total Skills: {{ total_skills }}</p>
-
-<h2>Skills by Category</h2>
+<h2>Spending by Category</h2>
 <ul>
     {% for item in category_totals %}
-    <li>{{ item.category }}: {{ item.count }}</li>
+    <li>{{ item.category }}: ${{ item.total }}</li>
     {% empty %}
-    <li>No skills found.</li>
+    <li>No expenses recorded yet.</li>
     {% endfor %}
 </ul>
 
+<p>
+    <a href="{% url 'expense_list' %}">View All Expenses</a> |
+    <a href="{% url 'expense_add' %}">Add Expense</a> |
+    <a href="{% url 'currency_conversion' %}">Currency Conversion</a> |
+    <a href="{% url 'import_expenses' %}">Import Expenses</a>
+</p>
 {% endblock %}

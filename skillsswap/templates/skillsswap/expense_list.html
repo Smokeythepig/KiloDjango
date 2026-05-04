@@ -1,6 +1,14 @@
-{% extends 'skillsswp/base.html' %}
+{% extends 'skillsswap/base.html' %}
 {% block content %}
 <h2>Expense Records</h2>
+
+<form method="get" style="margin-bottom: 20px;">
+    <label>Category: <input type="text" name="category" value="{{ category_filter }}"></label>
+    <label style="margin-left: 15px;">From: <input type="date" name="date_from" value="{{ date_from }}"></label>
+    <label style="margin-left: 15px;">To: <input type="date" name="date_to" value="{{ date_to }}"></label>
+    <button type="submit" style="margin-left: 10px;">Filter</button>
+    <a href="{% url 'expense_list' %}" style="margin-left: 10px;">Clear</a>
+</form>
 
 <table border="1" style="width:100%; border-collapse: collapse;">
     <thead>
@@ -26,11 +34,10 @@
         </tr>
         {% empty %}
         <tr>
-            <td colspan="5">No records found. [cite: 151]</td>
+            <td colspan="5">No expenses found.</td>
         </tr>
         {% endfor %}
     </tbody>
-
     <tfoot>
         <tr style="background-color: #eee; font-weight: bold;">
             <td colspan="2" style="text-align: right;">Total Spending:</td>
@@ -38,6 +45,7 @@
             <td colspan="2"></td>
         </tr>
     </tfoot>
-
 </table>
+
+<p style="margin-top: 15px;"><a href="{% url 'expense_add' %}">+ Add New Expense</a></p>
 {% endblock %}
