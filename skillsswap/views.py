@@ -160,6 +160,15 @@ def currency_conversion(request):
 class ImportForm(forms.Form):
     file = forms.FileField(label='CSV or JSON file')
 
+    def clean_file(self):
+        uploaded = self.cleaned_data['file']
+        name = uploaded.name.lower()
+        if not (name.endswith('.csv') or name.endswith('.json')):
+            raise ValidationError(
+                f'"{uploaded.name}" is not accepted. Only .csv and .json files are supported.'
+            )
+        return uploaded
+
 
 @login_required
 def import_expenses(request):
@@ -176,10 +185,8 @@ def import_expenses(request):
                 content = uploaded.read().decode('utf-8')
                 if filename.endswith('.csv'):
                     imported, skipped, errors = _import_csv(request.user, content)
-                elif filename.endswith('.json'):
-                    imported, skipped, errors = _import_json(request.user, content)
                 else:
-                    errors = ['Only .csv and .json files are supported.']
+                    imported, skipped, errors = _import_json(request.user, content)
             except Exception as e:
                 errors = [f'Could not read file: {e}']
     else:
@@ -240,7 +247,7 @@ def _import_json(user, content):
         try:
             if not isinstance(row, dict):
                 raise ValueError("Each item must be an object.")
-            expense = _parse_row(user, {k: str(v) for k, v in row.items()})
+            expense = _parse_row(user, {k: (str(v) if v is not None else '') for k, v in row.items()})
             expense.save()
             imported += 1
         except Exception as e:
