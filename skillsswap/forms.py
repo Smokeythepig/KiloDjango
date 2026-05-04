@@ -1,28 +1,35 @@
-from django import forms
-from .models import Expense # The dot (.) means "look in the current folder"
-from django.core.exceptions import ValidationError
-from datetime import date
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
+from django import forms #imports django forms module, gives base classes for creating forms
+from .models import Expense #imports Expense model from the same directory so the form knows which database table
+#it's mapped to
+from django.core.exceptions import ValidationError #lets us manually trigger errors if the submitted data 
+#doesn't meet criteria
+from datetime import date #used to have today's date available
+from django.contrib.auth.forms import UserCreationForm #built in-Django form that handles new user registration
+from django.contrib.auth.models import User #imports default Django User model
 
-class ExpenseForm(forms.ModelForm):
-    class Meta:
+
+class ExpenseForm(forms.ModelForm):  #is a ModelForm, directs Django to automatically build the form fields based on
+    #our Expense database model
+    class Meta:  #nested class telling Django which model to use and which fields to display in html
         model = Expense
-        # Fields the user will interact with
+        # Fields the user will interact with (specifies what is 'revealed' from model to the user)
         fields = ['date', 'amount', 'category', 'description']
         
-        # HTML widget to show a calendar picker
+        # HTML widget to show a calendar picker (otherwise default, Django shows text box for dates, this widgets
+        #line allows for html attribute (type='date') to be added
         widgets = {
             'date': forms.DateInput(attrs={'type': 'date'}),
         }
-    def clean_amount(self):
+
+    #The following methods starting with clean_ are sought out by Django to do specific logic on a field before saving.
+    def clean_amount(self):     #Retrieves amount from cleaned_data (data after basic type checking in django)
         amount = self.cleaned_data.get('amount')
-        # Check if amount is None first to avoid errors if the field is empty
-        if amount is not None and amount <= 0:
+        
+        if amount is not None and amount <= 0:  # Check if amount is None/negative first to avoid errors if the field is empty
             raise forms.ValidationError("The amount must be greater than zero.")
         return amount
 
-    def clean_date(self):
+    def clean_date(self):  #Comnpares selected_date to date.today()
         selected_date = self.cleaned_data.get('date')
         if selected_date and selected_date > date.today():
             raise forms.ValidationError("You cannot log an expense for a future date.")
